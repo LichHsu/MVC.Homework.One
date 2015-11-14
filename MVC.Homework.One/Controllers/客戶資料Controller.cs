@@ -39,8 +39,13 @@ namespace MVC.Homework.One.Models
             //}
             //var c = db.客戶聯絡人.Where(o => o.是否已刪除.Equals(false));
             //r = r.
-            r = r.Include(o => o.客戶聯絡人.Where(p => p.是否已刪除.Equals(false)));
-            //r = r.Include(o => o.客戶聯絡人).Where(c => c.客戶聯絡人.Where(p => p.是否已刪除.Equals(false)));
+            r = r.Include(o => o.客戶聯絡人);
+
+            foreach (var item in r)
+            {
+                item.客戶聯絡人.Where(p => p.是否已刪除 == false);
+            }
+            // r = r.Include(o => o.客戶聯絡人).Where(c => c.客戶聯絡人.Where(p => p.是否已刪除.Equals(false)));
             return View(r);
         }
 

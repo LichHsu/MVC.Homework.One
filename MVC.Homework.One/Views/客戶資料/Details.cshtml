@@ -1,7 +1,7 @@
 ﻿@model MVC.Homework.One.Models.客戶資料
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "客戶資料";
 }
 
 <h2>Details</h2>
@@ -58,6 +58,27 @@
             @Html.DisplayFor(model => model.Email)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.客戶分類)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.客戶分類)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.經度)
+        </dt>
+        <dd>            
+            @Html.DisplayFor(model => model.經度)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.緯度)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.緯度)
+        </dd>
     </dl>
     <p>
         @Html.ActionLink("編輯", "Edit", new { id = Model.Id }) |
@@ -65,95 +86,24 @@
     </p>
 </div>
 
-@* ------------------------------------------------ 連絡人資料 ------------------------------------------------ *@
-<br />
-<th>
-    <h4>連絡人資料</h4>
-    @Html.ActionLink("加入聯絡人", "Create", "客戶聯絡人", new { 客戶id = Model.Id }, null)
-    <input type="search" name="聯絡人查詢條件" value="" accesskey="s" placeholder="請輸入關鍵字 (Alt + s)" />
-    <input type="submit" value="搜尋" />
-</th>
-<table class="table">
-    <tr>
-        <th>
-            職稱
-        </th>
-        <th>
-            姓名
-        </th>
-        <th>
-            電話
-        </th>
-        <th>
-            Email
-        </th>
-        <th></th>
-    </tr>
-    @foreach (var item in Model.客戶聯絡人)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.職稱)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.姓名)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.電話)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.ActionLink("編輯", "Edit", "客戶聯絡人", new { id = item.Id }, null) |
-                @Html.ActionLink("刪除", "Delete", "客戶聯絡人", new { id = item.Id }, null)
-            </td>
-        </tr>
-    }
-</table>
 
-@* ------------------------------------------------ 帳戶資料 ------------------------------------------------ *@
+@*@section gMap
+{
+    <script type="text/javascript">
+        var map;
+        function initMap(vlat, vlng) {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: vlat, lng: vlng },
+                zoom: 8
+            });
+        }
+    </script>
+}*@
 
-<br />
-<th>
-    <h4>帳戶資訊</h4>
-    @Html.ActionLink("加入帳戶", "Create", "客戶銀行資訊", new { 客戶id = Model.Id }, null)
-</th>
-<table class="table">
-    <tr>
-        <th>
-            銀行代碼
-        </th>
-        <th>
-            分行代碼
-        </th>
-        <th>
-            帳戶號碼
-        </th>
-        <th>
-            帳戶名稱
-        </th>
-        <th></th>
-    </tr>
-    @foreach (var item in Model.客戶銀行資訊)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.銀行代碼)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.分行代碼)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.帳戶號碼)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.帳戶名稱)
-            </td>
-            <td>
-                @Html.ActionLink("編輯", "Edit", "客戶銀行資訊", new { id = item.Id }, null) |
-                @Html.ActionLink("刪除", "Delete", "客戶銀行資訊", new { id = item.Id }, null)
-            </td>
-        </tr>
-    }
-</table>
+<hr />
+@*@Html.Partial("Partial客戶連絡人", Model.客戶聯絡人)*@
+@Html.Action("Index", "客戶聯絡人", new { Model.Id })
+<hr />
+@*@Html.Action("Action客戶銀行資訊", new { Model.Id })*@
+@Html.Action("Index", "客戶銀行資訊", new { Model.Id })
+

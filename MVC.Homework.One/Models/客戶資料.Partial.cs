@@ -3,8 +3,6 @@ namespace MVC.Homework.One.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using MVC.Homework.One.Validates;
     
     [MetadataType(typeof(客戶資料MetaData))]
     public partial class 客戶資料
@@ -38,8 +36,19 @@ namespace MVC.Homework.One.Models
         public string Email { get; set; }
         [Required]
         public bool 是否已刪除 { get; set; }
+        
+        [StringLength(10, ErrorMessage="欄位長度不得大於 10 個字元")]
+        public string 客戶分類 { get; set; }
+        [Required]
+        public double 經度 { get; set; }
+        [Required]
+        public double 緯度 { get; set; }
+        
+        [StringLength(10, ErrorMessage="欄位長度不得大於 10 個字元")]
+        public string 帳號 { get; set; }
+        public string 密碼 { get; set; }
     
         public virtual ICollection<客戶銀行資訊> 客戶銀行資訊 { get; set; }
-        public virtual ICollection<客戶聯絡人> 客戶聯絡人 { get; set; }        
+        public virtual ICollection<客戶聯絡人> 客戶聯絡人 { get; set; }
     }
 }

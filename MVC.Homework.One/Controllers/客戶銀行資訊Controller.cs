@@ -15,10 +15,29 @@ namespace MVC.Homework.One.Controllers
         private CustomerEntities db = new CustomerEntities();
 
         // GET: 客戶銀行資訊
-        public ActionResult Index()
+        public ActionResult Index(int? id, string 銀行名稱)
         {
-            var 客戶銀行資訊 = db.客戶銀行資訊.Include(客 => 客.客戶資料);
-            return View(客戶銀行資訊.ToList());
+            //var g = db.客戶銀行資訊.GroupBy(o => o.銀行名稱);
+            var items = from o in db.客戶銀行資訊.AsQueryable()
+                        group o by o.銀行名稱 into g
+                        select g.Key;
+
+            ViewBag.銀行名稱 = new SelectList(items);
+
+            var 客戶 = db.客戶資料.Find(id);
+            ViewBag.客戶Id = id;
+            ViewBag.客戶名稱 = 客戶.客戶名稱;
+
+            var r = db.客戶銀行資訊.Where(o => o.客戶Id == id.Value);
+
+            if (!string.IsNullOrEmpty(銀行名稱))
+            {
+                r = r.Where(o => o.銀行名稱 == 銀行名稱);
+            }
+
+            return View(r);
+            //var 客戶銀行資訊 = db.客戶銀行資訊.Include(客 => 客.客戶);
+            //return View(客戶銀行資訊.ToList());
         }
 
         // GET: 客戶銀行資訊/Details/5
@@ -48,7 +67,7 @@ namespace MVC.Homework.One.Controllers
                 var 客戶 = db.客戶資料.Find(客戶Id);
                 ViewBag.客戶Id = 客戶Id;
                 ViewBag.客戶名稱 = 客戶.客戶名稱;
-                //ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱");
+                //ViewBag.客戶Id = new SelectList(db.客戶, "Id", "客戶名稱");
             }
             return View();
         }
@@ -64,11 +83,11 @@ namespace MVC.Homework.One.Controllers
             {
                 db.客戶銀行資訊.Add(客戶銀行資訊);
                 db.SaveChanges();
-                return RedirectToAction("Details", "客戶資料", new { id = 客戶銀行資訊.客戶Id });
+                return RedirectToAction("Details", "客戶", new { id = 客戶銀行資訊.客戶Id });
                 //return RedirectToAction("Index");
             }
 
-            //ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱", 客戶銀行資訊.客戶Id);            
+            //ViewBag.客戶Id = new SelectList(db.客戶, "Id", "客戶名稱", 客戶銀行資訊.客戶Id);            
             var 客戶 = db.客戶資料.Find(客戶銀行資訊.客戶Id);
             ViewBag.客戶Id = 客戶銀行資訊.客戶Id;
             ViewBag.客戶名稱 = 客戶.客戶名稱;
@@ -102,7 +121,7 @@ namespace MVC.Homework.One.Controllers
             {
                 db.Entry(客戶銀行資訊).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details", "客戶資料", new { id = 客戶銀行資訊.客戶Id });
+                return RedirectToAction("Details", "客戶", new { id = 客戶銀行資訊.客戶Id });
                 //return RedirectToAction("Index");
             }
             ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱", 客戶銀行資訊.客戶Id);
@@ -132,7 +151,7 @@ namespace MVC.Homework.One.Controllers
             客戶銀行資訊 客戶銀行資訊 = db.客戶銀行資訊.Find(id);
             db.客戶銀行資訊.Remove(客戶銀行資訊);
             db.SaveChanges();
-            return RedirectToAction("Details", "客戶資料", new { id = 客戶銀行資訊.客戶Id });
+            return RedirectToAction("Details", "客戶", new { id = 客戶銀行資訊.客戶Id });
             //return RedirectToAction("Index");
         }
 

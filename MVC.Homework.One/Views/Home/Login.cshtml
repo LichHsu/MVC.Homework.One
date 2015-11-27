@@ -1,0 +1,37 @@
+﻿@using System.Web.Security;
+@using MVC5Course.ViewModels;
+
+@model FormLoginViewModel
+@{
+    Layout = null;
+}
+
+<h2>登入</h2>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script src="~/Scripts/jquery-2.1.0.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <title>Login</title>
+</head>
+<body>
+    <div>
+        @*如果↓表單的ReturnUrl沒給的話，就沒辦法導向使用者原先要求的頁面*@
+        @using (Html.BeginForm("Login", "Home", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { autocomplete = "off" }))
+        {
+
+            @Html.TextBoxFor(m => m.Account) @Html.ValidationMessageFor(m => m.Account)
+            <br />
+            @Html.PasswordFor(m => m.Password) @Html.ValidationMessageFor(m => m.Password)
+            <br />
+
+            <input type="submit" value="登入" />
+        }
+    </div>
+</body>
+</html>
+
+

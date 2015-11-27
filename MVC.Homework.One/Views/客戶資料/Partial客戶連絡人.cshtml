@@ -1,0 +1,48 @@
+﻿@* ------------------------------------------------ 連絡人資料 ------------------------------------------------ *@
+@model IEnumerable<MVC.Homework.One.Models.客戶聯絡人>
+
+<br />
+<th>
+    <h4>連絡人資料</h4>
+    @*@Html.ActionLink("加入聯絡人", "Create", "客戶聯絡人", new { 客戶id = Model.Id }, null)
+    <input type="search" name="聯絡人查詢條件" value="" accesskey="s" placeholder="請輸入關鍵字 (Alt + s)" />
+    <input type="submit" value="搜尋" />*@
+</th>
+<table class="table">
+    <tr>
+        <th>
+            職稱
+        </th>
+        <th>
+            姓名
+        </th>
+        <th>
+            電話
+        </th>
+        <th>
+            Email
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.職稱)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.姓名)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.電話)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.ActionLink("編輯", "Edit", "客戶聯絡人", new { id = item.Id }, null) |
+                @Html.ActionLink("刪除", "Delete", "客戶聯絡人", new { id = item.Id }, null)
+            </td>
+        </tr>
+    }
+</table>

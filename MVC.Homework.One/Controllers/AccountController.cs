@@ -68,14 +68,19 @@ namespace MVC.Homework.One.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
-            if (!ModelState.IsValid)
+            CustomerEntities db = new CustomerEntities();
+
+            var r = db.客戶資料.Where(o => o.帳號 == model.帳號 && o.密碼 == model.Password).FirstOrDefault();
+
+            //if (!ModelState.IsValid)
+            if (r == null)
             {
                 return View(model);
             }
 
             // 這不會計算為帳戶鎖定的登入失敗
             // 若要啟用密碼失敗來觸發帳戶鎖定，請變更為 shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.帳號, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
